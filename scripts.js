@@ -23,7 +23,11 @@ async function pin1000MetadataToIPFS() {
       texture: i,
       sound: i,
     };
-    const metadataURI = await pinata.pinJSONToIPFS(metadata);
+    const metadataURI = await pinata.pinJSONToIPFS(metadata, {
+      pinataMetadata: {
+        name: `My NFT ${i}`,
+      },
+    });
     console.log(`📌 pinned metadata for NFT ${i} at ${metadataURI.IpfsHash}`);
     hashes.push(metadataURI.IpfsHash);
     console.timeLog("pin1000MetadataToIPFS");
