@@ -6,8 +6,6 @@ const pinataSDK = require("@pinata/sdk");
 const pinata = new pinataSDK(process.env.PINATA_API, process.env.PINATA_SECRET);
 
 async function pin1000MetadataToIPFS() {
-  // measure the execution time of the loop
-
   let hashes = [];
 
   console.time("pin1000MetadataToIPFS");
@@ -25,13 +23,13 @@ async function pin1000MetadataToIPFS() {
       texture: i,
       sound: i,
     };
-    console.timeEnd("pin1000MetadataToIPFS");
     const metadataURI = await pinata.pinJSONToIPFS(metadata);
-    console.log(
-      `pinned metadata for NFT ${i} at ${JSON.stringify(metadataURI)}`
-    );
+    console.log(`📌 pinned metadata for NFT ${i} at ${metadataURI.IpfsHash}`);
     hashes.push(metadataURI.IpfsHash);
+    console.timeLog("pin1000MetadataToIPFS");
   }
+
+  console.timeEnd("pin1000MetadataToIPFS");
 
   fs.writeFileSync(
     path.join(__dirname, "../", "metadata.json"),
@@ -41,4 +39,4 @@ async function pin1000MetadataToIPFS() {
   console.log("Done");
 }
 
-pin1000MetadataToIPFS();
+pin1000MetadataToIPFS().catch((err) => console.log(err));
