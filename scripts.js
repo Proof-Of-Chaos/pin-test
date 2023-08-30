@@ -3,10 +3,14 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const pinataSDK = require("@pinata/sdk");
-const pinata = pinataSDK(process.env.PINATA_API, process.env.PINATA_SECRET);
+const pinata = new pinataSDK(process.env.PINATA_API, process.env.PINATA_SECRET);
 
 async function pin1000MetadataToIPFS() {
+  // measure the execution time of the loop
+
   let hashes = [];
+
+  console.time("pin1000MetadataToIPFS");
   for (let i = 0; i < 1000; i++) {
     const metadata = {
       name: `My NFT ${i}`,
@@ -21,8 +25,11 @@ async function pin1000MetadataToIPFS() {
       texture: i,
       sound: i,
     };
+    console.timeEnd("pin1000MetadataToIPFS");
     const metadataURI = await pinata.pinJSONToIPFS(metadata);
-    console.log(`pinned metadata for NFT ${i} at ${metadataURI}`);
+    console.log(
+      `pinned metadata for NFT ${i} at ${JSON.stringify(metadataURI)}`
+    );
     hashes.push(metadataURI.IpfsHash);
   }
 
