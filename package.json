@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@pinata/sdk": "^2.1.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "ipfs-http-client": "^60.0.1",
+    "ipfs-only-hash": "^4.0.0"
   }
 }
